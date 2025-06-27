@@ -1,4 +1,4 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -18,8 +18,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "RFIDManager",
-            url: "https://github.com/zsguang/RFID-IOS-SDK/releases/download/v1.2.1/RFIDManager.xcframework.zip",
-            checksum: "4506953a814f38fcfbeb1c56b12971da3ff5e6e7b84e289725d28a2f55dba69c"
+            url: "https://github.com/zsguang/RFID-IOS-SDK/releases/download/v1.2.2/RFIDManager.xcframework.zip",
+            checksum: "b464622e27aa8a84a95ef4cfd5f18fe6f0a4fbe3934fe8251567cfae9ab2e123"
         )
     ]
 )
