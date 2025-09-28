@@ -8,7 +8,7 @@
         <Param name="FastID">false</Param>
         <Param name="TagFocus">false</Param>
         <Param name="MemoryBank">
-            <Param name="InventoryBank">EPC</Param>
+            <Param name="InventoryBank">EPC_TID</Param>
             <Param name="Offset">0</Param>
             <Param name="Length">6</Param>
         </Param>
