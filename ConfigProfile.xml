@@ -1,0 +1,37 @@
+<Config id="CFG-2025-09-28-01" version="1.0" deviceModel="R6">
+    <DeviceSerial>xxxxx</DeviceSerial>
+    <Region>eu</Region>
+    <RFID>
+        <Param name="Frequency">USA</Param>
+        <Param name="Power">20</Param>
+        <Param name="RFLink">PR_ASK_Miller4_250KHz</Param>
+        <Param name="FastID">false</Param>
+        <Param name="TagFocus">false</Param>
+        <Param name="MemoryBank">
+            <Param name="InventoryBank">EPC</Param>
+            <Param name="Offset">0</Param>
+            <Param name="Length">6</Param>
+        </Param>
+        <Param name="Gen2">
+            <Param name="SelectTarget">S0</Param>
+            <Param name="SelectAction">0</Param>
+            <Param name="SelectTruncate">Disable</Param>
+            <Param name="Q">Static</Param>
+            <Param name="StartQ">0</Param>
+            <Param name="MinQ">0</Param>
+            <Param name="MaxQ">0</Param>
+            <Param name="QueryDR">DR_8</Param>
+            <Param name="QueryM">FM0</Param>
+            <Param name="QueryTRext">NoPilot</Param>
+            <Param name="QuerySel">All</Param>
+            <Param name="QuerySession">S1</Param>
+            <Param name="QueryTarget">A</Param>
+            <Param name="LinkFrequency">0</Param>
+        </Param>
+    </RFID>
+    <Imager>
+        <Param name="BarcodeType">false</Param>
+        <Param name="AIM_DURATION">0</Param>
+        <Param name="SYMBOL_QR">false</Param>
+    </Imager>
+</Config>
