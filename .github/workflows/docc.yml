@@ -21,10 +21,12 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5  # 升级到 v5，消除 Node.js 20 警告
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true  # 关键修复：强制启用 Pages，解决 Not Found 错误
 
       - name: Convert DocC Archive to Static Website
         run: |
@@ -45,16 +47,16 @@ jobs:
           <head>
             <meta charset="utf-8">
             <meta http-equiv="refresh" content="0; url=$VERSION/">
-            <title>Redirecting</title>
+            <title>Redirecting to Documentation</title>
           </head>
           <body></body>
           </html>
           EOF
 
           SELECTOR='
-          <div style="background:#222; color:white; padding:8px 16px;">
-            Version:
-            <select onchange="window.location.href=this.value" style="margin-left:8px; padding:4px 8px;">
+          <div style="background:#222; color:white; padding:8px 16px; font-family: system-ui; font-size:14px;">
+            <span>SDK Version:</span>
+            <select onchange="window.location.href=this.value" style="margin-left:10px; padding:4px 8px; border-radius:6px;">
               <option value="$VERSION/" selected>$VERSION (Latest)</option>
             </select>
           </div>
@@ -65,8 +67,6 @@ jobs:
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'docs-site'
 
   deploy:
     needs: build
