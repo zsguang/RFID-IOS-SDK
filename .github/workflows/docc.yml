@@ -1,0 +1,78 @@
+name: Deploy DocC Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Convert DocC Archive to Static Website
+        run: |
+          VERSION="1.0.0"
+          mkdir -p docs-site/$VERSION
+          xcrun docc process-archive transform-for-static-hosting docs/RFIDManager.doccarchive \
+            --output-path docs-site/$VERSION \
+            --hosting-base-path "${{ github.event.repository.name }}/$VERSION"
+
+      - name: Create Redirect & Version Selector
+        run: |
+          ROOT=docs-site
+          VERSION="1.0.0"
+
+          cat > "$ROOT/index.html" <<EOF
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=$VERSION/">
+            <title>Redirecting</title>
+          </head>
+          <body></body>
+          </html>
+          EOF
+
+          SELECTOR='
+          <div style="background:#222; color:white; padding:8px 16px;">
+            Version:
+            <select onchange="window.location.href=this.value" style="margin-left:8px; padding:4px 8px;">
+              <option value="$VERSION/" selected>$VERSION (Latest)</option>
+            </select>
+          </div>
+          '
+
+          find "$ROOT/$VERSION" -name "*.html" -exec sed -i '' "s|<body>|<body>$SELECTOR|" {} \;
+          touch "$ROOT/.nojekyll"
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs-site'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
