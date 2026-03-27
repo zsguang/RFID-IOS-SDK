@@ -28,24 +28,16 @@ jobs:
         with:
           enablement: true
 
-      # ====================== 自动读取你的真实版本号 ======================
-      - name: Get SDK Version
-        id: version
-        run: |
-          VERSION=$(find docs -name "*.doccarchive" -maxdepth 1 | head -1 | sed -E 's/.*([0-9]+\.[0-9]+\.[0-9]+).*/\1/' || echo "1.0.0")
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-
       # ====================== 生成正确的静态网站 ======================
       - name: Convert DocC Archive
         run: |
-          VERSION=${{ steps.version.outputs.VERSION }}
           mkdir -p site
           xcrun docc process-archive transform-for-static-hosting \
             $(find docs -name "*.doccarchive" -maxdepth 1) \
             --output-path site \
             --hosting-base-path "${{ github.event.repository.name }}"
 
-      # ====================== 自动跳转首页（空白页修复） ======================
+      # ====================== 自动跳转首页 ======================
       - name: Create Root Redirect
         run: |
           cat > site/index.html <<EOF
